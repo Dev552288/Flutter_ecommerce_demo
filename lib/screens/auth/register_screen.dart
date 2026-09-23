@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../home/home_screen.dart';
+import '../auth/login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -67,7 +67,7 @@ class RegisterScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
                   (route) => false,
                 );
               },
