@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../models/dummy_data.dart';
-import '../../widgets/product_card.dart';
+import '../../../../models/dummy_data.dart';
+import '../../../../widgets/product_card.dart';
 
 class ProductListScreen extends StatelessWidget {
   const ProductListScreen({super.key});

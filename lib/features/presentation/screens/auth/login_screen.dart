@@ -1,17 +1,20 @@
+import 'package:ecommerce_app/features/presentation/providers/auth_provider.dart';
+import 'package:ecommerce_app/features/presentation/state/auth_state.dart';
+import 'package:ecommerce_app/features/presentation/state/auth_status.dart';
 import 'package:flutter/material.dart';
-
 import 'forgot_password_screen.dart';
 import 'register_screen.dart';
 import '../home/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -19,6 +22,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AuthState>(authProvider, (previous, next) {
+      if (next.status == AuthStatus.success) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
+      if (next.status == AuthStatus.failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.errorMessage ?? 'Login failed')),
+        );
+      }
+    });
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -111,6 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     context,
                     MaterialPageRoute(builder: (_) => const HomeScreen()),
                   );
+
+                  ref
+                      .read(authProvider.notifier)
+                      .login(
+                        usename: emailController.text.trim(),
+                        password: passwordController.text,
+                      );
                 },
                 child: const Text(
                   'Login',
@@ -138,8 +163,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
               OutlinedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.g_mobiledata),
-                label: const Text('Continue with Google'),
+                icon: const Icon(Icons.g_mobiledata, color: Colors.white),
+                label: const Text(
+                  'Continue with Google',
+                  style: TextStyle(color: Colors.white, fontSize: 13),
+                ),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 52),
                 ),
@@ -161,7 +189,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     },
-                    child: const Text('Register'),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(color: Colors.black, fontSize: 13),
+                    ),
                   ),
                 ],
               ),

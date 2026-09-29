@@ -1,9 +1,10 @@
 import 'package:ecommerce_app/core/theme/appbar_theme.dart';
-import 'package:ecommerce_app/screens/splash/splash_screen.dart';
+import 'package:ecommerce_app/features/presentation/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const EcommerceApp());
+  runApp(const ProviderScope(child: EcommerceApp()));
 }
 
 class EcommerceApp extends StatelessWidget {

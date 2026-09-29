@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../orders/orders_screen.dart';
 import 'addresses_screen.dart';
 import 'settings_screen.dart';
+import '../auth/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -91,7 +92,16 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
 
-          _ProfileOption(icon: Icons.logout, title: 'Logout', onTap: () {}),
+          _ProfileOption(
+            icon: Icons.logout,
+            title: 'Logout',
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
         ],
       ),
     );
